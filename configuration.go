@@ -8,6 +8,7 @@ import (
 type Configuration struct {
   address string
   loadRawBody bool
+  loadRawQuery bool
   statsFile string
   bodyPoolSize int
   maxBodySize int64
@@ -34,6 +35,7 @@ func Configure() *Configuration{
     bodyPoolSize: 1024,
     maxBodySize: 32769,
     loadRawBody: false,
+    loadRawQuery: false,
     invalidPoolSize: 1024,
     maxInvalidSize: 32769,
     statsFile: "stats.json",
@@ -122,6 +124,11 @@ func (c *Configuration) InvalidPool(poolSize int, bufferSize int) *Configuration
 
 func (c *Configuration) LoadRawBody() *Configuration {
   c.loadRawBody = true
+  return c
+}
+
+func (c *Configuration) LoadRawQuery() *Configuration {
+  c.loadRawQuery = true
   return c
 }
 

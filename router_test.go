@@ -187,6 +187,28 @@ func TestParsesQueryString(t *testing.T) {
   newRouter(c).ServeHTTP(httptest.NewRecorder(), req)
 }
 
+func TestDoesNotStoreRawQueryWhenNotConfigured(t *testing.T) {
+  spec := gspec.New(t)
+  f := func(context *TestContext) Response {
+    spec.Expect(context.RawQuery).ToEqual("")
+    return Json("").Response
+  }
+  c := Configure().Route(R("GET", "v1", "worms", f)).ContextFactory(testContextFactory).Dispatcher(testDispatcher)
+  req := gspec.Request().Url("/v1/worms/22w.json").Method("GET").BodyString(`{"hello":"World"}`).Req
+  newRouter(c).ServeHTTP(httptest.NewRecorder(), req)
+}
+
+func TestStoresRawQuery(t *testing.T) {
+  spec := gspec.New(t)
+  f := func(context *TestContext) Response {
+    spec.Expect(context.RawQuery).ToEqual("app=121&gogo=yes")
+    return Json("").Response
+  }
+  c := Configure().LoadRawQuery().Route(R("GET", "v1", "worms", f)).ContextFactory(testContextFactory).Dispatcher(testDispatcher)
+  req := gspec.Request().Url("/v1/worms/22w.json?app=121&gogo=yes").Method("GET").Req
+  newRouter(c).ServeHTTP(httptest.NewRecorder(), req)
+}
+
 func TestParsesQueryStirngWithEmptyPairAtTheStart(t *testing.T) {
   spec := gspec.New(t)
   f := func(context *TestContext) Response {

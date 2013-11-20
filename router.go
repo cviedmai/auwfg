@@ -32,7 +32,12 @@ func (r *Router) ServeHTTP(writer http.ResponseWriter, req *http.Request) {
     r.reply(writer, res, req)
     return
   }
+
   bc.Query = loadQuery(req.URL.RawQuery)
+  if r.loadRawQuery {
+    bc.RawQuery = req.URL.RawQuery
+  }
+
   bc.RemoteIp = loadRemoteIp(req)
   context := r.contextFactory(bc)
   r.reply(writer, r.dispatcher(route, context), req)
@@ -113,7 +118,6 @@ func (r *Router) loadBody(route *Route, req *http.Request, context *BaseContext)
     context.RawBody = make([]byte, buffer.Len())
     copy(context.RawBody, buffer.Bytes())
   }
-
   if context.Body != nil {
     if err := json.Unmarshal(buffer.Bytes(), context.Body); err != nil {
       return r.invalidFormat

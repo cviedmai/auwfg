@@ -45,6 +45,7 @@ Possible configuration options are:
 - `BodyPool`: [explained below](#bodypool)
 - `InvalidPool`: [explained below](#invalidpool)
 - `LoadRawBody`: The raw/unparsed body will be available in the context (useful for debugging)
+- `LoadRawQuery`: The raw/unparsed query will be available in the context (useful for debugging)
 
 ## BaseContext
 The base context of auwfg provides a series of useful attributes:
@@ -53,6 +54,7 @@ The base context of auwfg provides a series of useful attributes:
 - `RemoteIp`: (net.IP) The IP of the client that made the request. This is extracted from the HTTP headers x-forwarded-for, client-ip and remote-addr (the first one with an IP is the value of the remote IP).
 - `Params`: Parameters extracted from the URL. [explained below](#nr)
 - `RawBody`: The raw body bytes of the request. Only available if `LoadRawBody` configuration is set.
+- `RawQuery`: The raw query string of the request. Only available if `LoadRawQuery` configuration is set.
 
 <a id="cfd"></a>
 ## ContextFactory and Dispatcher
