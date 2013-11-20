@@ -28,6 +28,10 @@ func (r *Router) ServeHTTP(writer http.ResponseWriter, req *http.Request) {
     return
   }
   bc := newBaseContext(route, params, req)
+  if r.loadRawPath {
+    bc.RawPath = req.URL.Path
+  }
+
   if res := r.loadBody(route, req, bc); res != nil {
     r.reply(writer, res, req)
     return

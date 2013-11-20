@@ -9,6 +9,7 @@ type Configuration struct {
   address string
   loadRawBody bool
   loadRawQuery bool
+  loadRawPath bool
   statsFile string
   bodyPoolSize int
   maxBodySize int64
@@ -129,6 +130,11 @@ func (c *Configuration) LoadRawBody() *Configuration {
 
 func (c *Configuration) LoadRawQuery() *Configuration {
   c.loadRawQuery = true
+  return c
+}
+
+func (c *Configuration) LoadRawPath() *Configuration {
+  c.loadRawPath = true
   return c
 }
 

@@ -13,6 +13,7 @@ type BaseContext struct {
   Params *Params
   RawBody []byte
   RawQuery string
+  RawPath string
   Body interface{}
   Req *http.Request
   Query map[string]string
